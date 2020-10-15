@@ -1,0 +1,914 @@
+➜  stack_trace_fault idf.py build flash monitor
+Executing action: all (aliases: build)
+Running ninja in directory /Users/mdobryakov/Projects/my/AGV/experiments/stack_trace_fault/build
+Executing "ninja all"...
+[1/4] cd /Users/mdobryakov/Projects/my/AGV/experiments/stack_trace_fault/build/esp-idf/partition_table && /usr/local/Cellar/cmake/3.1...&& /usr/local/Cellar/cmake/3.18.4/bin/cmake -E echo "*******************************************************************************"
+Partition table binary generated. Contents:
+*******************************************************************************
+# Espressif ESP32 Partition Table
+# Name, Type, SubType, Offset, Size, Flags
+nvs,data,nvs,0x9000,24K,
+phy_init,data,phy,0xf000,4K,
+factory,app,factory,0x10000,1M,
+*******************************************************************************
+[2/4] Performing build step for 'bootloader'
+ninja: no work to do.
+Executing action: flash
+Choosing default port /dev/cu.SLAB_USBtoUART (use '-p PORT' option to set a specific serial port)
+Running esptool.py in directory /Users/mdobryakov/Projects/my/AGV/experiments/stack_trace_fault/build
+Executing "/Users/mdobryakov/.espressif/python_env/idf4.1_py2.7_env/bin/python /Users/mdobryakov/.esp-idf/components/esptool_py/esptool/esptool.py -p /dev/cu.SLAB_USBtoUART -b 460800 --before default_reset --after hard_reset --chip esp32 write_flash @flash_project_args"...
+esptool.py -p /dev/cu.SLAB_USBtoUART -b 460800 --before default_reset --after hard_reset --chip esp32 write_flash --flash_mode dio --flash_freq 40m --flash_size 2MB 0x8000 partition_table/partition-table.bin 0x1000 bootloader/bootloader.bin 0x10000 stack_trace_fault.bin
+esptool.py v2.9-dev
+Serial port /dev/cu.SLAB_USBtoUART
+Connecting.....
+Chip is ESP32D0WDQ5 (revision 1)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: 8c:aa:b5:b5:60:cc
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Compressed 3072 bytes to 103...
+Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.0 seconds (effective 2514.4 kbit/s)...
+Hash of data verified.
+Compressed 24016 bytes to 14872...
+Wrote 24016 bytes (14872 compressed) at 0x00001000 in 0.3 seconds (effective 566.5 kbit/s)...
+Hash of data verified.
+Compressed 726544 bytes to 440173...
+Wrote 726544 bytes (440173 compressed) at 0x00010000 in 10.8 seconds (effective 537.9 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...
+Executing action: monitor
+Running idf_monitor in directory /Users/mdobryakov/Projects/my/AGV/experiments/stack_trace_fault
+Executing "/Users/mdobryakov/.espressif/python_env/idf4.1_py2.7_env/bin/python /Users/mdobryakov/.esp-idf/tools/idf_monitor.py -p /dev/cu.SLAB_USBtoUART -b 115200 --toolchain-prefix xtensa-esp32-elf- /Users/mdobryakov/Projects/my/AGV/experiments/stack_trace_fault/build/stack_trace_fault.elf -m '/Users/mdobryakov/.espressif/python_env/idf4.1_py2.7_env/bin/python' '/Users/mdobryakov/.esp-idf/tools/idf.py'"...
+--- idf_monitor on /dev/cu.SLAB_USBtoUART 115200 ---
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
+ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:4
+load:0x3fff0034,len:6952
+load:0x40078000,len:13072
+ho 0 tail 12 room 4
+load:0x40080400,len:3896
+0x40080400: _init at ??:?
+
+entry 0x40080688
+I (30) boot: ESP-IDF v4.1 2nd stage bootloader
+I (31) boot: compile time 10:16:04
+I (31) boot: chip revision: 1
+I (33) boot_comm: chip revision: 1, min. bootloader chip revision: 0
+I (40) boot.esp32: SPI Speed      : 40MHz
+I (45) boot.esp32: SPI Mode       : DIO
+I (49) boot.esp32: SPI Flash Size : 2MB
+I (54) boot: Enabling RNG early entropy source...
+I (59) boot: Partition Table:
+I (63) boot: ## Label            Usage          Type ST Offset   Length
+I (70) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (78) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (85) boot:  2 factory          factory app      00 00 00010000 00100000
+I (93) boot: End of partition table
+I (97) boot_comm: chip revision: 1, min. application chip revision: 0
+I (104) esp_image: segment 0: paddr=0x00010020 vaddr=0x3f400020 size=0x19ad0 (105168) map
+I (153) esp_image: segment 1: paddr=0x00029af8 vaddr=0x3ffb0000 size=0x038dc ( 14556) load
+I (159) esp_image: segment 2: paddr=0x0002d3dc vaddr=0x40080000 size=0x00404 (  1028) load
+0x40080000: _WindowOverflow4 at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:1778
+
+I (160) esp_image: segment 3: paddr=0x0002d7e8 vaddr=0x40080404 size=0x02830 ( 10288) load
+I (173) esp_image: segment 4: paddr=0x00030020 vaddr=0x400d0020 size=0x7bbf4 (506868) map
+0x400d0020: _stext at ??:?
+
+I (371) esp_image: segment 5: paddr=0x000abc1c vaddr=0x40082c34 size=0x159cc ( 88524) load
+0x40082c34: _xt_syscall_exc at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:827
+
+I (422) boot: Loaded app from partition at offset 0x10000
+I (422) boot: Disabling RNG early entropy source...
+I (423) cpu_start: Pro cpu up.
+I (426) cpu_start: Application information:
+I (431) cpu_start: Project name:     stack_trace_fault
+I (437) cpu_start: App version:      1
+I (441) cpu_start: Compile time:     Oct 15 2020 10:15:55
+I (448) cpu_start: ELF file SHA256:  dcacbb36167eb951...
+I (454) cpu_start: ESP-IDF:          v4.1
+I (458) cpu_start: Starting app cpu, entry point is 0x40081348
+0x40081348: call_start_cpu1 at /Users/mdobryakov/.esp-idf/components/esp32/cpu_start.c:271
+
+I (0) cpu_start: App cpu up.
+I (469) heap_init: Initializing. RAM available for dynamic allocation:
+I (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (482) heap_init: At 3FFB91C8 len 00026E38 (155 KiB): DRAM
+I (488) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (494) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (501) heap_init: At 40098600 len 00007A00 (30 KiB): IRAM
+I (507) cpu_start: Pro cpu start user code
+I (525) spi_flash: detected chip: generic
+I (526) spi_flash: flash io: dio
+W (526) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (536) cpu_start: Starting scheduler on PRO CPU.
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (547) WiFiManager: Initialization of Wi-Fi system
+I (557) WiFiManager: Start STA Wi-Fi client
+I (567) wifi:wifi driver task: 3ffc1478, prio:23, stack:6656, core=0
+I (567) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (577) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (587) wifi:wifi firmware version: 3ea4c76
+I (587) wifi:config NVS flash: disabled
+I (587) wifi:config nano formating: disabled
+I (597) wifi:Init dynamic tx buffer num: 32
+I (597) wifi:Init data frame dynamic rx buffer num: 32
+I (607) wifi:Init management frame dynamic rx buffer num: 32
+I (607) wifi:Init management short buffer num: 32
+I (617) wifi:Init static rx buffer size: 1600
+I (617) wifi:Init static rx buffer num: 10
+I (617) wifi:Init dynamic rx buffer num: 32
+E (627) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.
+W (637) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration
+I (777) phy: phy_version: 4180, cb3948e, Sep 12 2019, 16:39:13, 0, 2
+I (777) wifi:mode : sta (8c:aa:b5:b5:60:cc)
+I (1287) WiFiManager: Connect to Wi-Fi with SSID and password
+I (1407) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1
+I (3577) wifi:state: init -> auth (b0)
+I (3587) wifi:state: auth -> assoc (0)
+I (3587) wifi:state: assoc -> run (10)
+I (3597) wifi:connected with ???, aid = 1, channel 1, BW20, bssid = 4c:5e:0c:32:b4:17
+I (3597) wifi:security: WPA2-PSK, phy: bgn, rssi: -55
+I (3607) wifi:pm start, type: 1
+
+I (3687) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4557) esp_netif_handlers: sta ip: 192.168.1.9, mask: 255.255.255.0, gw: 192.168.1.1
+W (4607) STACK POSITION: p0: 0x3ffbc8d0
+W (4607) STACK POSITION: p1: 0x3ffbc8d4
+W (4607) STACK POSITION: p2: 0x3ffbc8d8
+I (4607) LOG_TAG: Wi-Fi RSSI:***ERROR*** A stack overflow in task Tmr Svc has been detected.
+abort() was called at PC 0x40088451 on core 0
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+
+ELF file SHA256: dcacbb36167eb951
+
+Backtrace: 0x40087fec:0x3ffbc210 0x4008842c:0x3ffbc240 0x40088451:0x3ffbc270 0x4008a208:0x3ffbc2a0 0x40088f40:0x3ffbc2d0 0x40088ef6:0xa5a5a5a5 |<-CORRUPTED
+0x40087fec: invoke_abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:157
+
+0x4008842c: abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:174
+
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+0x4008a208: vTaskSwitchContext at /Users/mdobryakov/.esp-idf/components/freertos/tasks.c:2770
+
+0x40088f40: _frxt_dispatch at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:406
+
+0x40088ef6: _frxt_int_exit at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:206
+
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:4
+load:0x3fff0034,len:6952
+load:0x40078000,len:13072
+ho 0 tail 12 room 4
+load:0x40080400,len:3896
+0x40080400: _init at ??:?
+
+entry 0x40080688
+I (31) boot: ESP-IDF v4.1 2nd stage bootloader
+I (31) boot: compile time 10:16:04
+I (31) boot: chip revision: 1
+I (33) boot_comm: chip revision: 1, min. bootloader chip revision: 0
+I (41) boot.esp32: SPI Speed      : 40MHz
+I (45) boot.esp32: SPI Mode       : DIO
+I (50) boot.esp32: SPI Flash Size : 2MB
+I (54) boot: Enabling RNG early entropy source...
+I (60) boot: Partition Table:
+I (63) boot: ## Label            Usage          Type ST Offset   Length
+I (71) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (78) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (85) boot:  2 factory          factory app      00 00 00010000 00100000
+I (93) boot: End of partition table
+I (97) boot_comm: chip revision: 1, min. application chip revision: 0
+I (104) esp_image: segment 0: paddr=0x00010020 vaddr=0x3f400020 size=0x19ad0 (105168) map
+I (153) esp_image: segment 1: paddr=0x00029af8 vaddr=0x3ffb0000 size=0x038dc ( 14556) load
+I (160) esp_image: segment 2: paddr=0x0002d3dc vaddr=0x40080000 size=0x00404 (  1028) load
+0x40080000: _WindowOverflow4 at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:1778
+
+I (161) esp_image: segment 3: paddr=0x0002d7e8 vaddr=0x40080404 size=0x02830 ( 10288) load
+I (173) esp_image: segment 4: paddr=0x00030020 vaddr=0x400d0020 size=0x7bbf4 (506868) map
+0x400d0020: _stext at ??:?
+
+I (371) esp_image: segment 5: paddr=0x000abc1c vaddr=0x40082c34 size=0x159cc ( 88524) load
+0x40082c34: _xt_syscall_exc at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:827
+
+I (422) boot: Loaded app from partition at offset 0x10000
+I (423) boot: Disabling RNG early entropy source...
+I (423) cpu_start: Pro cpu up.
+I (427) cpu_start: Application information:
+I (431) cpu_start: Project name:     stack_trace_fault
+I (437) cpu_start: App version:      1
+I (442) cpu_start: Compile time:     Oct 15 2020 10:15:55
+I (448) cpu_start: ELF file SHA256:  dcacbb36167eb951...
+I (454) cpu_start: ESP-IDF:          v4.1
+I (458) cpu_start: Starting app cpu, entry point is 0x40081348
+0x40081348: call_start_cpu1 at /Users/mdobryakov/.esp-idf/components/esp32/cpu_start.c:271
+
+I (450) cpu_start: App cpu up.
+I (469) heap_init: Initializing. RAM available for dynamic allocation:
+I (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (482) heap_init: At 3FFB91C8 len 00026E38 (155 KiB): DRAM
+I (488) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (495) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (501) heap_init: At 40098600 len 00007A00 (30 KiB): IRAM
+I (507) cpu_start: Pro cpu start user code
+I (526) spi_flash: detected chip: generic
+I (527) spi_flash: flash io: dio
+W (527) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (537) cpu_start: Starting scheduler on PRO CPU.
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (548) WiFiManager: Initialization of Wi-Fi system
+I (558) WiFiManager: Start STA Wi-Fi client
+I (568) wifi:wifi driver task: 3ffc1478, prio:23, stack:6656, core=0
+I (568) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (578) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (588) wifi:wifi firmware version: 3ea4c76
+I (588) wifi:config NVS flash: disabled
+I (588) wifi:config nano formating: disabled
+I (598) wifi:Init dynamic tx buffer num: 32
+I (598) wifi:Init data frame dynamic rx buffer num: 32
+I (608) wifi:Init management frame dynamic rx buffer num: 32
+I (608) wifi:Init management short buffer num: 32
+I (618) wifi:Init static rx buffer size: 1600
+I (618) wifi:Init static rx buffer num: 10
+I (618) wifi:Init dynamic rx buffer num: 32
+E (628) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.
+W (638) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration
+I (778) phy: phy_version: 4180, cb3948e, Sep 12 2019, 16:39:13, 0, 2
+I (778) wifi:mode : sta (8c:aa:b5:b5:60:cc)
+I (1288) WiFiManager: Connect to Wi-Fi with SSID and password
+I (1408) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1
+I (3578) wifi:state: init -> auth (b0)
+I (3588) wifi:state: auth -> assoc (0)
+I (3588) wifi:state: assoc -> run (10)
+I (3598) wifi:connected with ???, aid = 1, channel 1, BW20, bssid = 4c:5e:0c:32:b4:17
+I (3598) wifi:security: WPA2-PSK, phy: bgn, rssi: -54
+I (3608) wifi:pm start, type: 1
+
+I (3648) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4558) esp_netif_handlers: sta ip: 192.168.1.9, mask: 255.255.255.0, gw: 192.168.1.1
+W (4608) STACK POSITION: p0: 0x3ffbc8d0
+W (4608) STACK POSITION: p1: 0x3ffbc8d4
+W (4608) STACK POSITION: p2: 0x3ffbc8d8
+I (4608) LOG_TAG: Wi-Fi RSSI: -***ERROR*** A stack overflow in task Tmr Svc has been detected.
+abort() was called at PC 0x40088451 on core 0
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+
+ELF file SHA256: dcacbb36167eb951
+
+Backtrace: 0x40087fec:0x3ffbc210 0x4008842c:0x3ffbc240 0x40088451:0x3ffbc270 0x4008a208:0x3ffbc2a0 0x40088f40:0x3ffbc2d0 0x40088ef6:0xa5a5a5a5 |<-CORRUPTED
+0x40087fec: invoke_abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:157
+
+0x4008842c: abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:174
+
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+0x4008a208: vTaskSwitchContext at /Users/mdobryakov/.esp-idf/components/freertos/tasks.c:2770
+
+0x40088f40: _frxt_dispatch at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:406
+
+0x40088ef6: _frxt_int_exit at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:206
+
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:4
+load:0x3fff0034,len:6952
+load:0x40078000,len:13072
+ho 0 tail 12 room 4
+load:0x40080400,len:3896
+0x40080400: _init at ??:?
+
+entry 0x40080688
+I (31) boot: ESP-IDF v4.1 2nd stage bootloader
+I (31) boot: compile time 10:16:04
+I (31) boot: chip revision: 1
+I (33) boot_comm: chip revision: 1, min. bootloader chip revision: 0
+I (41) boot.esp32: SPI Speed      : 40MHz
+I (45) boot.esp32: SPI Mode       : DIO
+I (50) boot.esp32: SPI Flash Size : 2MB
+I (54) boot: Enabling RNG early entropy source...
+I (60) boot: Partition Table:
+I (63) boot: ## Label            Usage          Type ST Offset   Length
+I (71) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (78) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (85) boot:  2 factory          factory app      00 00 00010000 00100000
+I (93) boot: End of partition table
+I (97) boot_comm: chip revision: 1, min. application chip revision: 0
+I (104) esp_image: segment 0: paddr=0x00010020 vaddr=0x3f400020 size=0x19ad0 (105168) map
+I (153) esp_image: segment 1: paddr=0x00029af8 vaddr=0x3ffb0000 size=0x038dc ( 14556) load
+I (160) esp_image: segment 2: paddr=0x0002d3dc vaddr=0x40080000 size=0x00404 (  1028) load
+0x40080000: _WindowOverflow4 at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:1778
+
+I (161) esp_image: segment 3: paddr=0x0002d7e8 vaddr=0x40080404 size=0x02830 ( 10288) load
+I (173) esp_image: segment 4: paddr=0x00030020 vaddr=0x400d0020 size=0x7bbf4 (506868) map
+0x400d0020: _stext at ??:?
+
+I (371) esp_image: segment 5: paddr=0x000abc1c vaddr=0x40082c34 size=0x159cc ( 88524) load
+0x40082c34: _xt_syscall_exc at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:827
+
+I (422) boot: Loaded app from partition at offset 0x10000
+I (423) boot: Disabling RNG early entropy source...
+I (423) cpu_start: Pro cpu up.
+I (427) cpu_start: Application information:
+I (431) cpu_start: Project name:     stack_trace_fault
+I (437) cpu_start: App version:      1
+I (442) cpu_start: Compile time:     Oct 15 2020 10:15:55
+I (448) cpu_start: ELF file SHA256:  dcacbb36167eb951...
+I (454) cpu_start: ESP-IDF:          v4.1
+I (458) cpu_start: Starting app cpu, entry point is 0x40081348
+0x40081348: call_start_cpu1 at /Users/mdobryakov/.esp-idf/components/esp32/cpu_start.c:271
+
+I (450) cpu_start: App cpu up.
+I (469) heap_init: Initializing. RAM available for dynamic allocation:
+I (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (482) heap_init: At 3FFB91C8 len 00026E38 (155 KiB): DRAM
+I (488) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (495) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (501) heap_init: At 40098600 len 00007A00 (30 KiB): IRAM
+I (507) cpu_start: Pro cpu start user code
+I (526) spi_flash: detected chip: generic
+I (527) spi_flash: flash io: dio
+W (527) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (537) cpu_start: Starting scheduler on PRO CPU.
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (548) WiFiManager: Initialization of Wi-Fi system
+I (558) WiFiManager: Start STA Wi-Fi client
+I (568) wifi:wifi driver task: 3ffc1478, prio:23, stack:6656, core=0
+I (568) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (578) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (588) wifi:wifi firmware version: 3ea4c76
+I (588) wifi:config NVS flash: disabled
+I (588) wifi:config nano formating: disabled
+I (598) wifi:Init dynamic tx buffer num: 32
+I (598) wifi:Init data frame dynamic rx buffer num: 32
+I (608) wifi:Init management frame dynamic rx buffer num: 32
+I (608) wifi:Init management short buffer num: 32
+I (618) wifi:Init static rx buffer size: 1600
+I (618) wifi:Init static rx buffer num: 10
+I (618) wifi:Init dynamic rx buffer num: 32
+E (628) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.
+W (638) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration
+I (848) phy: phy_version: 4180, cb3948e, Sep 12 2019, 16:39:13, 0, 2
+I (858) wifi:mode : sta (8c:aa:b5:b5:60:cc)
+I (1358) WiFiManager: Connect to Wi-Fi with SSID and password
+I (1478) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1
+I (3648) wifi:state: init -> auth (b0)
+I (3658) wifi:state: auth -> assoc (0)
+I (3658) wifi:state: assoc -> run (10)
+I (3668) wifi:connected with ???, aid = 1, channel 1, BW20, bssid = 4c:5e:0c:32:b4:17
+I (3668) wifi:security: WPA2-PSK, phy: bgn, rssi: -56
+I (3678) wifi:pm start, type: 1
+
+I (3708) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4558) esp_netif_handlers: sta ip: 192.168.1.9, mask: 255.255.255.0, gw: 192.168.1.1
+W (4678) STACK POSITION: p0: 0x3ffbc8d0
+W (4678) STACK POSITION: p1: 0x3ffbc8d4
+W (4678) STACK POSITION: p2: 0x3ffbc8d8
+I (4678) LOG_TAG: Wi-Fi RSSI: -57
+W (5678) STACK POSITION: p0: 0x3ffbc8d0
+W (5678) STACK POSITION: p1: 0x3ffbc8d4
+W (5678) STACK POSITION: p2: 0x3ffbc8d8
+I (5678) LOG_TAG: Wi-Fi RSSI: -57
+W (6678) STACK POSITION: p0: 0x3ffbc8d0
+W (6678) STACK POSITION: p1: 0x3ffbc8d4
+W (6678) STACK POSITION: p2: 0x3ffbc8d8
+I (6678) LOG_TAG: Wi-Fi R***ERROR*** A stack overflow in task Tmr Svc has been detected.
+abort() was called at PC 0x40088451 on core 0
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+
+ELF file SHA256: dcacbb36167eb951
+
+Backtrace: 0x40087fec:0x3ffbc210 0x4008842c:0x3ffbc240 0x40088451:0x3ffbc270 0x4008a208:0x3ffbc2a0 0x40088f40:0x3ffbc2d0 0x40088ef6:0xa5a5a5a5 |<-CORRUPTED
+0x40087fec: invoke_abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:157
+
+0x4008842c: abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:174
+
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+0x4008a208: vTaskSwitchContext at /Users/mdobryakov/.esp-idf/components/freertos/tasks.c:2770
+
+0x40088f40: _frxt_dispatch at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:406
+
+0x40088ef6: _frxt_int_exit at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:206
+
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:4
+load:0x3fff0034,len:6952
+load:0x40078000,len:13072
+ho 0 tail 12 room 4
+load:0x40080400,len:3896
+0x40080400: _init at ??:?
+
+entry 0x40080688
+I (31) boot: ESP-IDF v4.1 2nd stage bootloader
+I (31) boot: compile time 10:16:04
+I (31) boot: chip revision: 1
+I (33) boot_comm: chip revision: 1, min. bootloader chip revision: 0
+I (41) boot.esp32: SPI Speed      : 40MHz
+I (45) boot.esp32: SPI Mode       : DIO
+I (50) boot.esp32: SPI Flash Size : 2MB
+I (54) boot: Enabling RNG early entropy source...
+I (60) boot: Partition Table:
+I (63) boot: ## Label            Usage          Type ST Offset   Length
+I (71) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (78) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (85) boot:  2 factory          factory app      00 00 00010000 00100000
+I (93) boot: End of partition table
+I (97) boot_comm: chip revision: 1, min. application chip revision: 0
+I (104) esp_image: segment 0: paddr=0x00010020 vaddr=0x3f400020 size=0x19ad0 (105168) map
+I (153) esp_image: segment 1: paddr=0x00029af8 vaddr=0x3ffb0000 size=0x038dc ( 14556) load
+I (160) esp_image: segment 2: paddr=0x0002d3dc vaddr=0x40080000 size=0x00404 (  1028) load
+0x40080000: _WindowOverflow4 at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:1778
+
+I (161) esp_image: segment 3: paddr=0x0002d7e8 vaddr=0x40080404 size=0x02830 ( 10288) load
+I (173) esp_image: segment 4: paddr=0x00030020 vaddr=0x400d0020 size=0x7bbf4 (506868) map
+0x400d0020: _stext at ??:?
+
+I (371) esp_image: segment 5: paddr=0x000abc1c vaddr=0x40082c34 size=0x159cc ( 88524) load
+0x40082c34: _xt_syscall_exc at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:827
+
+I (422) boot: Loaded app from partition at offset 0x10000
+I (423) boot: Disabling RNG early entropy source...
+I (423) cpu_start: Pro cpu up.
+I (427) cpu_start: Application information:
+I (431) cpu_start: Project name:     stack_trace_fault
+I (437) cpu_start: App version:      1
+I (442) cpu_start: Compile time:     Oct 15 2020 10:15:55
+I (448) cpu_start: ELF file SHA256:  dcacbb36167eb951...
+I (454) cpu_start: ESP-IDF:          v4.1
+I (458) cpu_start: Starting app cpu, entry point is 0x40081348
+0x40081348: call_start_cpu1 at /Users/mdobryakov/.esp-idf/components/esp32/cpu_start.c:271
+
+I (450) cpu_start: App cpu up.
+I (469) heap_init: Initializing. RAM available for dynamic allocation:
+I (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (482) heap_init: At 3FFB91C8 len 00026E38 (155 KiB): DRAM
+I (488) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (495) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (501) heap_init: At 40098600 len 00007A00 (30 KiB): IRAM
+I (507) cpu_start: Pro cpu start user code
+I (526) spi_flash: detected chip: generic
+I (527) spi_flash: flash io: dio
+W (527) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (537) cpu_start: Starting scheduler on PRO CPU.
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (548) WiFiManager: Initialization of Wi-Fi system
+I (558) WiFiManager: Start STA Wi-Fi client
+I (568) wifi:wifi driver task: 3ffc1478, prio:23, stack:6656, core=0
+I (568) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (578) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (588) wifi:wifi firmware version: 3ea4c76
+I (588) wifi:config NVS flash: disabled
+I (588) wifi:config nano formating: disabled
+I (598) wifi:Init dynamic tx buffer num: 32
+I (598) wifi:Init data frame dynamic rx buffer num: 32
+I (608) wifi:Init management frame dynamic rx buffer num: 32
+I (608) wifi:Init management short buffer num: 32
+I (618) wifi:Init static rx buffer size: 1600
+I (618) wifi:Init static rx buffer num: 10
+I (618) wifi:Init dynamic rx buffer num: 32
+E (628) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.
+W (638) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration
+I (778) phy: phy_version: 4180, cb3948e, Sep 12 2019, 16:39:13, 0, 2
+I (788) wifi:mode : sta (8c:aa:b5:b5:60:cc)
+I (1288) WiFiManager: Connect to Wi-Fi with SSID and password
+I (1408) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1
+I (3578) wifi:state: init -> auth (b0)
+I (3588) wifi:state: auth -> assoc (0)
+I (3588) wifi:state: assoc -> run (10)
+I (3598) wifi:connected with ???, aid = 1, channel 1, BW20, bssid = 4c:5e:0c:32:b4:17
+I (3598) wifi:security: WPA2-PSK, phy: bgn, rssi: -56
+I (3608) wifi:pm start, type: 1
+
+I (3648) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4558) esp_netif_handlers: sta ip: 192.168.1.9, mask: 255.255.255.0, gw: 192.168.1.1
+W (4608) STACK POSITION: p0: 0x3ffbc8d0
+W (4608) STACK POSITION: p1: 0x3ffbc8d4
+W (4608) STACK POSITION: p2: 0x3ffbc8d8
+I (4608) LOG_TAG: Wi-Fi RSSI: -58
+***ERROR*** A stack overflow in task Tmr Svc has been detected.
+abort() was called at PC 0x40088451 on core 0
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+
+ELF file SHA256: dcacbb36167eb951
+
+Backtrace: 0x40087fec:0x3ffbc7a0 0x4008842c:0x3ffbc7d0 0x40088451:0x3ffbc800 0x4008a208:0x3ffbc830 0x40088f40:0x3ffbc860 0x40088ef6:0x3ffbc890 0x400ff6b3:0x00000001 |<-CORRUPTED
+0x40087fec: invoke_abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:157
+
+0x4008842c: abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:174
+
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+0x4008a208: vTaskSwitchContext at /Users/mdobryakov/.esp-idf/components/freertos/tasks.c:2770
+
+0x40088f40: _frxt_dispatch at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:406
+
+0x40088ef6: _frxt_int_exit at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:206
+
+0x400ff6b3: esp_wifi_sta_get_ap_info at ??:?
+
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:4
+load:0x3fff0034,len:6952
+load:0x40078000,len:13072
+ho 0 tail 12 room 4
+load:0x40080400,len:3896
+0x40080400: _init at ??:?
+
+entry 0x40080688
+I (31) boot: ESP-IDF v4.1 2nd stage bootloader
+I (31) boot: compile time 10:16:04
+I (31) boot: chip revision: 1
+I (33) boot_comm: chip revision: 1, min. bootloader chip revision: 0
+I (41) boot.esp32: SPI Speed      : 40MHz
+I (45) boot.esp32: SPI Mode       : DIO
+I (50) boot.esp32: SPI Flash Size : 2MB
+I (54) boot: Enabling RNG early entropy source...
+I (60) boot: Partition Table:
+I (63) boot: ## Label            Usage          Type ST Offset   Length
+I (71) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (78) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (85) boot:  2 factory          factory app      00 00 00010000 00100000
+I (93) boot: End of partition table
+I (97) boot_comm: chip revision: 1, min. application chip revision: 0
+I (104) esp_image: segment 0: paddr=0x00010020 vaddr=0x3f400020 size=0x19ad0 (105168) map
+I (153) esp_image: segment 1: paddr=0x00029af8 vaddr=0x3ffb0000 size=0x038dc ( 14556) load
+I (160) esp_image: segment 2: paddr=0x0002d3dc vaddr=0x40080000 size=0x00404 (  1028) load
+0x40080000: _WindowOverflow4 at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:1778
+
+I (161) esp_image: segment 3: paddr=0x0002d7e8 vaddr=0x40080404 size=0x02830 ( 10288) load
+I (173) esp_image: segment 4: paddr=0x00030020 vaddr=0x400d0020 size=0x7bbf4 (506868) map
+0x400d0020: _stext at ??:?
+
+I (371) esp_image: segment 5: paddr=0x000abc1c vaddr=0x40082c34 size=0x159cc ( 88524) load
+0x40082c34: _xt_syscall_exc at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:827
+
+I (422) boot: Loaded app from partition at offset 0x10000
+I (423) boot: Disabling RNG early entropy source...
+I (423) cpu_start: Pro cpu up.
+I (427) cpu_start: Application information:
+I (431) cpu_start: Project name:     stack_trace_fault
+I (437) cpu_start: App version:      1
+I (442) cpu_start: Compile time:     Oct 15 2020 10:15:55
+I (448) cpu_start: ELF file SHA256:  dcacbb36167eb951...
+I (454) cpu_start: ESP-IDF:          v4.1
+I (458) cpu_start: Starting app cpu, entry point is 0x40081348
+0x40081348: call_start_cpu1 at /Users/mdobryakov/.esp-idf/components/esp32/cpu_start.c:271
+
+I (450) cpu_start: App cpu up.
+I (469) heap_init: Initializing. RAM available for dynamic allocation:
+I (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (482) heap_init: At 3FFB91C8 len 00026E38 (155 KiB): DRAM
+I (488) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (495) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (501) heap_init: At 40098600 len 00007A00 (30 KiB): IRAM
+I (507) cpu_start: Pro cpu start user code
+I (526) spi_flash: detected chip: generic
+I (527) spi_flash: flash io: dio
+W (527) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (537) cpu_start: Starting scheduler on PRO CPU.
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (548) WiFiManager: Initialization of Wi-Fi system
+I (558) WiFiManager: Start STA Wi-Fi client
+I (568) wifi:wifi driver task: 3ffc1478, prio:23, stack:6656, core=0
+I (568) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (578) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (588) wifi:wifi firmware version: 3ea4c76
+I (588) wifi:config NVS flash: disabled
+I (588) wifi:config nano formating: disabled
+I (598) wifi:Init dynamic tx buffer num: 32
+I (598) wifi:Init data frame dynamic rx buffer num: 32
+I (608) wifi:Init management frame dynamic rx buffer num: 32
+I (608) wifi:Init management short buffer num: 32
+I (618) wifi:Init static rx buffer size: 1600
+I (618) wifi:Init static rx buffer num: 10
+I (618) wifi:Init dynamic rx buffer num: 32
+E (628) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.
+W (638) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration
+I (798) phy: phy_version: 4180, cb3948e, Sep 12 2019, 16:39:13, 0, 2
+I (798) wifi:mode : sta (8c:aa:b5:b5:60:cc)
+I (1298) WiFiManager: Connect to Wi-Fi with SSID and password
+I (1418) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1
+I (3588) wifi:state: init -> auth (b0)
+I (3598) wifi:state: auth -> assoc (0)
+I (3598) wifi:state: assoc -> run (10)
+I (3618) wifi:connected with ???, aid = 1, channel 1, BW20, bssid = 4c:5e:0c:32:b4:17
+I (3618) wifi:security: WPA2-PSK, phy: bgn, rssi: -57
+I (3618) wifi:pm start, type: 1
+
+I (3708) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4558) esp_netif_handlers: sta ip: 192.168.1.9, mask: 255.255.255.0, gw: 192.168.1.1
+W (4618) STACK POSITION: p0: 0x3ffbc8d0
+W (4618) STACK POSITION: p1: 0x3ffbc8d4
+W (4618) STACK POSITION: p2: 0x3ffbc8d8
+I (4618) LOG_TAG: Wi-Fi RSSI: -57
+***ERROR*** A stack overflow in task Tmr Svc has been detected.
+abort() was called at PC 0x40088451 on core 0
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+
+ELF file SHA256: dcacbb36167eb951
+
+Backtrace: 0x40087fec:0x3ffbc7a0 0x4008842c:0x3ffbc7d0 0x40088451:0x3ffbc800 0x4008a208:0x3ffbc830 0x40088f40:0x3ffbc860 0x40088ef6:0x3ffbc890 0x400ff6b3:0x456f7b22 |<-CORRUPTED
+0x40087fec: invoke_abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:157
+
+0x4008842c: abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:174
+
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+0x4008a208: vTaskSwitchContext at /Users/mdobryakov/.esp-idf/components/freertos/tasks.c:2770
+
+0x40088f40: _frxt_dispatch at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:406
+
+0x40088ef6: _frxt_int_exit at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:206
+
+0x400ff6b3: esp_wifi_sta_get_ap_info at ??:?
+
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:4
+load:0x3fff0034,len:6952
+load:0x40078000,len:13072
+ho 0 tail 12 room 4
+load:0x40080400,len:3896
+0x40080400: _init at ??:?
+
+entry 0x40080688
+I (31) boot: ESP-IDF v4.1 2nd stage bootloader
+I (31) boot: compile time 10:16:04
+I (31) boot: chip revision: 1
+I (33) boot_comm: chip revision: 1, min. bootloader chip revision: 0
+I (41) boot.esp32: SPI Speed      : 40MHz
+I (45) boot.esp32: SPI Mode       : DIO
+I (50) boot.esp32: SPI Flash Size : 2MB
+I (54) boot: Enabling RNG early entropy source...
+I (60) boot: Partition Table:
+I (63) boot: ## Label            Usage          Type ST Offset   Length
+I (71) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (78) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (85) boot:  2 factory          factory app      00 00 00010000 00100000
+I (93) boot: End of partition table
+I (97) boot_comm: chip revision: 1, min. application chip revision: 0
+I (104) esp_image: segment 0: paddr=0x00010020 vaddr=0x3f400020 size=0x19ad0 (105168) map
+I (153) esp_image: segment 1: paddr=0x00029af8 vaddr=0x3ffb0000 size=0x038dc ( 14556) load
+I (160) esp_image: segment 2: paddr=0x0002d3dc vaddr=0x40080000 size=0x00404 (  1028) load
+0x40080000: _WindowOverflow4 at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:1778
+
+I (161) esp_image: segment 3: paddr=0x0002d7e8 vaddr=0x40080404 size=0x02830 ( 10288) load
+I (173) esp_image: segment 4: paddr=0x00030020 vaddr=0x400d0020 size=0x7bbf4 (506868) map
+0x400d0020: _stext at ??:?
+
+I (371) esp_image: segment 5: paddr=0x000abc1c vaddr=0x40082c34 size=0x159cc ( 88524) load
+0x40082c34: _xt_syscall_exc at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:827
+
+I (422) boot: Loaded app from partition at offset 0x10000
+I (423) boot: Disabling RNG early entropy source...
+I (423) cpu_start: Pro cpu up.
+I (427) cpu_start: Application information:
+I (431) cpu_start: Project name:     stack_trace_fault
+I (437) cpu_start: App version:      1
+I (442) cpu_start: Compile time:     Oct 15 2020 10:15:55
+I (448) cpu_start: ELF file SHA256:  dcacbb36167eb951...
+I (454) cpu_start: ESP-IDF:          v4.1
+I (458) cpu_start: Starting app cpu, entry point is 0x40081348
+0x40081348: call_start_cpu1 at /Users/mdobryakov/.esp-idf/components/esp32/cpu_start.c:271
+
+I (450) cpu_start: App cpu up.
+I (469) heap_init: Initializing. RAM available for dynamic allocation:
+I (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (482) heap_init: At 3FFB91C8 len 00026E38 (155 KiB): DRAM
+I (488) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (495) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (501) heap_init: At 40098600 len 00007A00 (30 KiB): IRAM
+I (507) cpu_start: Pro cpu start user code
+I (526) spi_flash: detected chip: generic
+I (527) spi_flash: flash io: dio
+W (527) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (537) cpu_start: Starting scheduler on PRO CPU.
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (548) WiFiManager: Initialization of Wi-Fi system
+I (558) WiFiManager: Start STA Wi-Fi client
+I (568) wifi:wifi driver task: 3ffc1478, prio:23, stack:6656, core=0
+I (568) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (578) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (588) wifi:wifi firmware version: 3ea4c76
+I (588) wifi:config NVS flash: disabled
+I (588) wifi:config nano formating: disabled
+I (598) wifi:Init dynamic tx buffer num: 32
+I (598) wifi:Init data frame dynamic rx buffer num: 32
+I (608) wifi:Init management frame dynamic rx buffer num: 32
+I (608) wifi:Init management short buffer num: 32
+I (618) wifi:Init static rx buffer size: 1600
+I (618) wifi:Init static rx buffer num: 10
+I (618) wifi:Init dynamic rx buffer num: 32
+E (628) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.
+W (638) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration
+I (778) phy: phy_version: 4180, cb3948e, Sep 12 2019, 16:39:13, 0, 2
+I (788) wifi:mode : sta (8c:aa:b5:b5:60:cc)
+I (1288) WiFiManager: Connect to Wi-Fi with SSID and password
+I (1408) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1
+I (3578) wifi:state: init -> auth (b0)
+I (3588) wifi:state: auth -> assoc (0)
+I (3588) wifi:state: assoc -> run (10)
+I (3598) wifi:connected with ???, aid = 1, channel 1, BW20, bssid = 4c:5e:0c:32:b4:17
+I (3608) wifi:security: WPA2-PSK, phy: bgn, rssi: -56
+I (3608) wifi:pm start, type: 1
+
+I (3658) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4558) esp_netif_handlers: sta ip: 192.168.1.9, mask: 255.255.255.0, gw: 192.168.1.1
+W (4608) STACK POSITION: p0: 0x3ffbc8d0
+W (4608) STACK POSITION: p1: 0x3ffbc8d4
+W (4608) STACK POSITION: p2: 0x3ffbc8d8
+I (4608) LOG_TAG: Wi-Fi RSSI: -58
+***ERROR*** A stack overflow in task Tmr Svc has been detected.
+abort() was called at PC 0x40088451 on core 0
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+
+ELF file SHA256: dcacbb36167eb951
+
+Backtrace: 0x40087fec:0x3ffbc7a0 0x4008842c:0x3ffbc7d0 0x40088451:0x3ffbc800 0x4008a208:0x3ffbc830 0x40088f40:0x3ffbc860 0x40088ef6:0x3ffbc890 0x400ff6b3:0x00000001 |<-CORRUPTED
+0x40087fec: invoke_abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:157
+
+0x4008842c: abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:174
+
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+0x4008a208: vTaskSwitchContext at /Users/mdobryakov/.esp-idf/components/freertos/tasks.c:2770
+
+0x40088f40: _frxt_dispatch at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:406
+
+0x40088ef6: _frxt_int_exit at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:206
+
+0x400ff6b3: esp_wifi_sta_get_ap_info at ??:?
+
+
+Rebooting...
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:4
+load:0x3fff0034,len:6952
+load:0x40078000,len:13072
+ho 0 tail 12 room 4
+load:0x40080400,len:3896
+0x40080400: _init at ??:?
+
+entry 0x40080688
+I (31) boot: ESP-IDF v4.1 2nd stage bootloader
+I (31) boot: compile time 10:16:04
+I (31) boot: chip revision: 1
+I (33) boot_comm: chip revision: 1, min. bootloader chip revision: 0
+I (41) boot.esp32: SPI Speed      : 40MHz
+I (45) boot.esp32: SPI Mode       : DIO
+I (50) boot.esp32: SPI Flash Size : 2MB
+I (54) boot: Enabling RNG early entropy source...
+I (60) boot: Partition Table:
+I (63) boot: ## Label            Usage          Type ST Offset   Length
+I (71) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (78) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (85) boot:  2 factory          factory app      00 00 00010000 00100000
+I (93) boot: End of partition table
+I (97) boot_comm: chip revision: 1, min. application chip revision: 0
+I (104) esp_image: segment 0: paddr=0x00010020 vaddr=0x3f400020 size=0x19ad0 (105168) map
+I (153) esp_image: segment 1: paddr=0x00029af8 vaddr=0x3ffb0000 size=0x038dc ( 14556) load
+I (160) esp_image: segment 2: paddr=0x0002d3dc vaddr=0x40080000 size=0x00404 (  1028) load
+0x40080000: _WindowOverflow4 at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:1778
+
+I (161) esp_image: segment 3: paddr=0x0002d7e8 vaddr=0x40080404 size=0x02830 ( 10288) load
+I (173) esp_image: segment 4: paddr=0x00030020 vaddr=0x400d0020 size=0x7bbf4 (506868) map
+0x400d0020: _stext at ??:?
+
+I (371) esp_image: segment 5: paddr=0x000abc1c vaddr=0x40082c34 size=0x159cc ( 88524) load
+0x40082c34: _xt_syscall_exc at /Users/mdobryakov/.esp-idf/components/freertos/xtensa_vectors.S:827
+
+I (422) boot: Loaded app from partition at offset 0x10000
+I (423) boot: Disabling RNG early entropy source...
+I (423) cpu_start: Pro cpu up.
+I (427) cpu_start: Application information:
+I (431) cpu_start: Project name:     stack_trace_fault
+I (437) cpu_start: App version:      1
+I (442) cpu_start: Compile time:     Oct 15 2020 10:15:55
+I (448) cpu_start: ELF file SHA256:  dcacbb36167eb951...
+I (454) cpu_start: ESP-IDF:          v4.1
+I (458) cpu_start: Starting app cpu, entry point is 0x40081348
+0x40081348: call_start_cpu1 at /Users/mdobryakov/.esp-idf/components/esp32/cpu_start.c:271
+
+I (450) cpu_start: App cpu up.
+I (469) heap_init: Initializing. RAM available for dynamic allocation:
+I (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (482) heap_init: At 3FFB91C8 len 00026E38 (155 KiB): DRAM
+I (488) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (495) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (501) heap_init: At 40098600 len 00007A00 (30 KiB): IRAM
+I (507) cpu_start: Pro cpu start user code
+I (526) spi_flash: detected chip: generic
+I (527) spi_flash: flash io: dio
+W (527) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (537) cpu_start: Starting scheduler on PRO CPU.
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (548) WiFiManager: Initialization of Wi-Fi system
+I (558) WiFiManager: Start STA Wi-Fi client
+I (568) wifi:wifi driver task: 3ffc1478, prio:23, stack:6656, core=0
+I (568) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (578) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (588) wifi:wifi firmware version: 3ea4c76
+I (588) wifi:config NVS flash: disabled
+I (588) wifi:config nano formating: disabled
+I (598) wifi:Init dynamic tx buffer num: 32
+I (598) wifi:Init data frame dynamic rx buffer num: 32
+I (608) wifi:Init management frame dynamic rx buffer num: 32
+I (608) wifi:Init management short buffer num: 32
+I (618) wifi:Init static rx buffer size: 1600
+I (618) wifi:Init static rx buffer num: 10
+I (618) wifi:Init dynamic rx buffer num: 32
+E (628) phy_init: esp_phy_load_cal_data_from_nvs: NVS has not been initialized. Call nvs_flash_init before starting WiFi/BT.
+W (638) phy_init: failed to load RF calibration data (0x1101), falling back to full calibration
+I (788) phy: phy_version: 4180, cb3948e, Sep 12 2019, 16:39:13, 0, 2
+I (788) wifi:mode : sta (8c:aa:b5:b5:60:cc)
+I (1288) WiFiManager: Connect to Wi-Fi with SSID and password
+I (1408) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1
+I (3578) wifi:state: init -> auth (b0)
+I (3588) wifi:state: auth -> assoc (0)
+I (3588) wifi:state: assoc -> run (10)
+I (3608) wifi:connected with ???, aid = 1, channel 1, BW20, bssid = 4c:5e:0c:32:b4:17
+I (3608) wifi:security: WPA2-PSK, phy: bgn, rssi: -57
+I (3608) wifi:pm start, type: 1
+
+I (3608) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4558) esp_netif_handlers: sta ip: 192.168.1.9, mask: 255.255.255.0, gw: 192.168.1.1
+W (4618) STACK POSITION: p0: 0x3ffbc8d0
+W (4618) STACK POSITION: p1: 0x3ffbc8d4
+W (4618) STACK POSITION: p2: 0x3ffbc8d8
+I (4618) LOG_TAG: Wi-Fi RSSI: -58
+***ERROR*** A stack overflow in task Tmr Svc has been detected.
+abort() was called at PC 0x40088451 on core 0
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+
+ELF file SHA256: dcacbb36167eb951
+
+Backtrace: 0x40087fec:0x3ffbc7a0 0x4008842c:0x3ffbc7d0 0x40088451:0x3ffbc800 0x4008a208:0x3ffbc830 0x40088f40:0x3ffbc860 0x40088ef6:0x3ffbc890 0x400ff6b3:0x00000001 |<-CORRUPTED
+0x40087fec: invoke_abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:157
+
+0x4008842c: abort at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:174
+
+0x40088451: vApplicationStackOverflowHook at /Users/mdobryakov/.esp-idf/components/esp32/panic.c:125
+
+0x4008a208: vTaskSwitchContext at /Users/mdobryakov/.esp-idf/components/freertos/tasks.c:2770
+
+0x40088f40: _frxt_dispatch at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:406
+
+0x40088ef6: _frxt_int_exit at /Users/mdobryakov/.esp-idf/components/freertos/portasm.S:206
+
+0x400ff6b3: esp_wifi_sta_get_ap_info at ??:?
